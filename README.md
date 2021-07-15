@@ -401,3 +401,39 @@ For instance, related records that then need to be accessed and filtered and pro
 Callback Filter Iterator
 
 The last iterator we'll see is the Callback Filter Iterator. Similar to the Filter Iterator, it allows you to filter items in an iterator. But what happens if you need to provide a solution for other people to use your iterators and for them to provide their own filtering methods? This iterator permits you to pass a callback that performs the filtering for your iterator. This type of callback filter iterator is commonly used in any packages or libraries that wrap up using iterators to provide access to collections of data. There are tons of other SPL iterator classes, but this collection of ten iterators should cover most of the cases you'll hit in day in-day out use. Just remember, if you have a series of tasks that you need to perform on a collection of data, look to an iterator as a possible solution.
+
+## Generators
+
+PHP generator overview
+
+Generators is a routine that is designed to control the iteration behavior of a loop. which may sound pretty simple, and at the most basic level the conceptional idea is actually pretty easy to grasp. Let's look at an example, however, we want to provide a way to generate the Fibonacci numbers. 
+
+Fibonacci is an algorithm used in mathematics to provide for the sequence, f of n is equal to f of n minus one, plus f of n minus two. Or, the number at position three is made by adding the numbers at position one and two together. This sequence typically starts with the seed values of zero and one for position one and two, respectively. 
+
+So, following this pattern, we add zero and one to get one, and to get the next number we add one and one to get two, and two and one to get three, three and two to get five, five and three to get eight, and so on. As an algorithm, using the concept of a generator, it would look something like this. Let's walk through each of these pieces, one by one, and see exactly what's happening. 
+
+First, we have a function, Fibonacci, that we are creating. Fibonacci defines two variables, the last and the current, ie., our seed values. Next, it yields one. 
+
+
+### Yield
+
+> The heart of the generator.
+
+- yeild: value OR key and value OR null.
+
+What does yield mean? Yield is the heart of the generator, so let's pay attention to this. Yield at its most basic level provides a value to the code looping over the generator and pauses the execution of the generator. Think of it this way, yield says "here code that called me, "take this value, do something with it, while you do so, "I will pause execution of the loop." 
+
+After that external code is done performing whatever actions on the yielded value, the generator then goes on and continues performing its work. Facts of the Fibonacci function. Okay, we yield one, which means we pass it back to the exterior loop that is calling the generator and we pause execution for any processing to occur. 
+
+After we're done with that external processing, we enter our while loop, doing the math to produce our new current and new last values, and then yield the current value. The execution of our generator is in the foreach loop, the value number we wind up looping over is our yielded values. So, this kicks off the sequence yields one, pauses execution to echo one, then enters our while loop, performs the math, yields the next value in the sequence, pauses execution to echo that value and repeats the while loop until we tell it to quit. 
+
+Well, how do we tell the generator to quit? A generator will quit when you return a value. A generator will only return a value when we're exiting. So, to exit a generator, say you want a generator to end after displaying the first 10 Fibonacci values, you just return an empty value and the sequence will end. The example looks like this, with just a little bit of changes, we can turn our generator from an infinite loop into one that we can pass a value into and exit after we reach some particular position. Now, whenever we hit the position we pass in, the generator will skip and exit using the empty return. A generator can also yield a classic array style key, with a value pair. 
+
+And again, some minor modifications we can change our generator to return a key with the value. Notice on our while loop, we can yield both the value i, as well as the current actual value for the Fibonacci sequence at that point i. Our implementation of using this Fibonacci function looks like this, we pass n Fibonacci six, as key is equal to value. That key again is yielded back and our value is also yielded. 
+
+And we echo the key and the value, so we get zero one, one one, two two, three three, four five, five eight, and six 13, and so on, and so forth. As you might expect with PHP, you can even yield a value by reference. This is performed the same way you yield a return from a function, prepending an ampersand, to the front of the generator function. So in this case, we're passing in a value into countdown and we're referencing it from outside the generator and manipulating the value. In this case, we're building a list that counts down from three. 
+
+Finally, generators can also yield a null value. These null values do get an automatic key applied to them. This can be useful for building up, say a collection where you occasionally want a null value returned, as opposed to a real value returned. Don't feel overly intimidated by generators, they are a pretty complex topic to work through. 
+
+It's taking a lot of the complexity that's already in an iterator and hiding it behind some syntactic sugar. The trick is to understand that yield acts like a return, except rather than stopping the execution of the loop, only pauses it for some operation to occur.
+
