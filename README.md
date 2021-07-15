@@ -335,3 +335,69 @@ $mysql = new Mysql();
 4. Median
 
 - [Instructor] Let's turn our attention to some different patterns in PHP, away from architecture oriented patterns to more day in and day out sorts of problems. First up is iterators. So what is an iterator? The standard definition of an iterator is an object that enables you to traverse a container. It is a solution to a super common problem in PHP and in just about every other programming language, looping over stuff. In essence, an iterator gives us the ability to perform a standard foreach loop over a collection of objects in a programmatic and fast manner. At hearing this, you may be thinking, "And that's impressive, why?" Writing a foreach loop is not particularly challenging. Putting stuff into an array and loop over it, done. What do you need an iterator for? Let's ask a different question. Do you often have multiple foreach loops that you have to execute over a collection of data on different files? Say you have a series of steps that you have to perform for a set of data return from the database, probably at some point you've had this exact type of problem. Any time you think, "yes" to those types of questions, "Do I have multiple foreach loops, "a series of tasks, or a pipeline of work?" think about looking to an iterator to do that type of work. Iterators are great at these types of problems. But why an iterator over just a standard foreach loop? Pretty basic reason, iterators both tend to be faster, as well as less memory intensive to a general foreach loop. They also let us solve and design solutions to problems in much more elegant manners than a typical foreach loop allows us to. The real trick with an iterator isn't so much just using them once or twice on a collection of stuff, but instead using a whole group of iterators to work through a large collection of objects. That's the real trick. Iterators are stackable. So we can write one iterator to one solve problem, and then add on others to solve different problems. An iterator lets us write a class focused around one particular problem, and write another different class for a different problem. An iterator, in most cases, is a class that implements these five methods: current, being what the current value in the iterator is; key, being the current key at the current point in the iterator; next, being the next value in the iterator; rewind, meaning to go back to the start of the iterator; and valid, providing a way to check if the current key has a valid value for the iterator. This sequence of operations is the iterator pattern. When we loop over the iterator, first rewind is called to reset the iterator. Next, the valid method is called to ensure our value at the first position is valid. We call current or key or whatever our operation is being performed, and then next to advance to the next value in the iterator. And repeat the loop to valid, and then current, or key, next, and etc. So let's review our concept of an iterator. Iterator is a class that gives us the ability to loop over a collection of stuff. And it gives us the ability to build a pipeline of tasks. We can build an iterator that does some filtering, another one that does some organization, and another one that does some calculation. These iterators can then be stacked to loop over a collection of objects and the data that those objects have to filter, organize, and then calculate, all in a very nice pipeline. Imagine we have a collection of data. We need to first throw out any results that are bad. That's one iterator, a filter iterator, another one that calculates the mean, another that calculates the mode, and another one that calculates the median, and perhaps in the future we know we're going to have to add in more iterators to do more work down the line. That's our pipeline of work that our iterators can do for us.
+
+## Stacking Iterator
+
+We've talked earlier about how iterators are stackable. 
+
+Because they are stackable we can perform a series of tasks with a series of iterators. In this way iterators become a much more powerful tool for solving lots of common problems in php. 
+
+**What sort of tasks?** 
+
+Tasks
+
+- Data manipulation
+- Calculations
+- Data filtering
+- Data buffering
+- Many mofre
+
+Pretty much anywhere you have used the forage loop in the past, php iterators are a viable solution to replace them. So let's stack an iterator and build a second iterator to work with our basic iterator that we built in the last video. Open up your code editor to the directory Iterators, and open our iterator.php file. 
+
+We'll add a few blank lines after line 13, and on line 15 we'll add a new class, FilterRows. So it'll be class FilterRows extends FilterIterator. This iterator is using the filter iterator, which adds a new method, except. Except returns either true or false. True keeps processing the results. False ignores it and skips that entry from the rest of the iterators being run. You can imagine that our filter iterator simply drops any entries that return false. Next let's implement an except method. On line 16 add public function except. 
+
+Except doesn't take any inputs, and on line 17 we'll get the current row being processed with this arrow getInnerIterator, which is a method call that returns the inner iterator, which itself is an object, so we can then do arrow current. This says get the inner iterator object. Once we have it, we wanna access the current value of that iterator. We'll save this as the variable current. 
+
+Now current is an array with keys for each column in our csv row, and we know the last one has only one column for the blank row. So we can check if the count of the current is equal to one, and return false, else return true. So add on line 18 if count of current is equal to one, we want to return false. And outside of this we'll simply return true. Now how do we actually use this? That's the easy part. Add a new line after line 26 where we instatiate our basic iterator and write iterator is equal to new FilterRows, and pass in our instance of the iterator. And there we go, we just stacked our iterators. Notice all we have to do is instantiate a new instance of a second iterator, and pass in the instance of the iterator that we've already previously built. If we save this, go over to our terminal application, once again remembering to change into the directory for iterators, and run the command php iterators.php, we'll see that we no longer display that final blank row. Notice now all we have is the four rows of all the actual data that we have. You could keep building new iterators and stack them to provide more operations. For instance, you could build a new iterator, another filter iterator to scan the data provided for each column and ensure that it is valid and correct. You could add in another iterator to scan each of the rows and match up the data for that particular column to the actual column name. 
+
+## SPL Iterators
+
+- IteratorIterator : Common starter iterator
+- FilterIterator : Implements accept method
+- ArrayIterator : Array into an iterator
+- DirectoryIterator : Is a FilesystemIterator loop over into content of derectory.
+- RecursiveIterator
+
+- Much like we discussed with interfaces, there are standard PHP iterators that we can use to build up our own iterators. Provided for us from the PHP standard PHP library. We've already seen two of these. 
+
+Iterator Iterator
+
+First is the Iterator Iterator, which wraps anything that implements the traversable iterator interface into an iterator. This is one of the most common starting iterators. A typical usage is just what you saw earlier, taking a SPL file object and converting it to an iterator for performing processing over it. 
+
+Filter Iterator
+
+Next one that we have already seen, it's the Filter Iterator. Again, this one adds an accept method that we can use to reject or include values in our iterator pipeline for further processing. 
+
+Array Iterator
+
+Next is the Array Iterator, which again tends to be a pretty common iterator to start with. It takes an array and turns it into an iterator. It has a host of methods that are available to duplicate some of the functionality from an array to be useful with an iterator. Such as, sorting by key and checking if an offset exists. 
+
+Directory Iterator
+
+Directory Iterator is a useful iterator to loop over the contents of a directory. File System Iterator extends this to provide an iterator that loops over the contents of a directory and returns a new SPL file object for each item in the directory. Whereas Directory Iterator returns the Directory Iterator instance for each item in the directory itself. 
+
+Many of the SPL iterators have a recursive extension to them and Recursive Directory Iterator is our first version of this. In this case, the Recursive Directory Iterator acts like the File System Iterator but will recurse through a directory structure. So we can use this iterator to, for instance, scan a directory tree looking for something, stack it with the Filter Iterator to shortcut as needed when you can ignore part of a particular directory. 
+
+Infinite Iterator
+
+The Infinite Iterator will never stop looping over the contents of the iterator. Whenever it hits the end of the collection, it will just hit rewind and start back up. This is useful in cases where you might want to reduce a collection to a single value. This might be the solution to that particular type of problem. 
+
+Limit Iterator
+
+The Limit Iterator permits you to iterate over a subcollection of items in your iterator. Want to grab the first two thousand items in a collection and perform some operation before moving on? This iterator will let you solve that particular problem. The Recursive Iterator Iterator is an iterator designed to walk through iterators recursively. So you have a collection of data that has trialed information. 
+
+For instance, related records that then need to be accessed and filtered and processed. This is the solution to that type of problem. You can build a Recursive Iterator Iterator to loop over and recurse into any particular data structure that you have and filter and process that data in turn. 
+
+Callback Filter Iterator
+
+The last iterator we'll see is the Callback Filter Iterator. Similar to the Filter Iterator, it allows you to filter items in an iterator. But what happens if you need to provide a solution for other people to use your iterators and for them to provide their own filtering methods? This iterator permits you to pass a callback that performs the filtering for your iterator. This type of callback filter iterator is commonly used in any packages or libraries that wrap up using iterators to provide access to collections of data. There are tons of other SPL iterator classes, but this collection of ten iterators should cover most of the cases you'll hit in day in-day out use. Just remember, if you have a series of tasks that you need to perform on a collection of data, look to an iterator as a possible solution.
