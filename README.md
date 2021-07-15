@@ -175,3 +175,67 @@ Examples:
     So we have a standard model, view, controller application. Model talks to the database. View displays stuff to the end user, and the controller layer handles the coordination between these two other layers. We want to log in most of our model classes and some of our controller classes, but our views, on the other hand, have essentially no need for any form of logging.
 
     Where would this type of code live? Traits are our answer in this case. Traits are reusable methods that can basically be loaded into any class and be used whenever we need them, simply by including that class.
+
+## PHP OOP Advanced
+
+PHP has a class of features for object oriented programming you may not have experienced that much, that will help you craft better software. PHP, like many other languages, has a feature set called Magic Methods.
+
+### PHP Magic Methods
+
+- Prefix with __ (2 underscore)
+- __sleep : serialize($Object)
+- __wakeup : unserialize($ObjectSerialized)
+- __invoke
+
+    ```php
+    class Compare {
+        public function __invoke($a, $b) {
+            return $a === $b;
+        }
+    }
+
+    $compare = new Compare;
+    var_dump($compare(1,2)); // false
+    ```
+- __debugInfo : var_dump($Object)
+- __toString
+- __set : set object property
+    - $Object->property_does_not_exist = 5
+- __get : get object property
+    - echo $Object->property_does_not_exist
+- __isset
+    - empty($Object->property_does_not_exist) || isset($Object->property_does_not_exist)
+- __unset
+    - unset($Object->property_does_not_exist)
+- __call
+    - $Object->property_does_not_exist
+- __callStatic
+    - $Object::property_does_not_exist
+
+**What is a Magic Method?** 
+
+Magic Methods are so called because they let you add magic to automatically happen whenever you interact with your PHP objects. Magic Methods are always prefixed with a double underscore. And, in fact, PHP recommends you do not write any method names with a double underscore, as PHP may, in the future, add new Magic Methods. 
+
+Magic Methods are designed to give you the ability to do some work for free, or to have an overwrite without having to dive into the nitty gritty of the PHP internals. In essence, Magic Methods are the documented way for you to override some core behavior or have work happen at certain point in times in a PHP objects lifetime. 
+
+Let's explore some examples and this may become more clear. Sleep is fired when you serialize an object and correspondingly, wakeup is fired when the object is unserialized. An example is you have a large object, that when serialized, has some state that doesn't need to be stored, because the object can retrieve it. Getting rid of this state before serializing it is probably useful. Correspondingly, you need to restore this information when unserializing an object. Wakeup is the solution to that. Invoke is a super powerful Magic Method. It gives us the ability to create classes that are called invokable classes. In essence, we create classes that can have one method, their invoke method. And simply call that class, and the invoke method is executed. We have in essence replaced one-off methods with an invokable class. Or wrapping up logic that might have been an enclosure instead into this invokable class. Let's look at an example of how invoke works. Here we have a class, Compare, with a single method, invoke, that compares two values and returns if they are exactly equal. We simply initialize the class, call the class and pass our two values. And when we execute it, we get the result of either true or false. 
+
+In this case, false. Simplistic example to be sure. But invoke becomes this very powerful way of wrapping up common bits of logic in the classes that we use to cross parts of your application. Imagine this code instead giving you the ability to check a valid order number for your system. It's useful in a wide range of places and you just created a simple class to wrap up all that logic for you. Debug info is called anytime you execute var dump on an object. This gives you the ability to, for instance, provide help when someone is debugging your object. Or add more contextual information that your object knows about, but isn't revealed in the standard dump of the object itself. Those of you coming from the Java world or C Sharp, will recognize your old friend, toString. In PHP, it does the same thing. When you want a string representation of the object, this method gets called and gives you the ability to determine what string to return. The last few Magic Methods all deal with a similar problem. What happens when you attempt to examine or use a non-existent property or method name for an object? Overriding these methods gives you the ability to do really interesting things. Your objects can respond to method calls that it may not have access to at that point in time, until something else first happens. You want a database system to be able to determine information about a query that hasn't yet run. These methods give you the tools to do that type of problem solving. Set and get are called when we attempt to set or get a property on a PHP object that doesn't exist. Imagine you have a library that deals with a price value and you want to return that price as a string or as a float. You can write a Magic getter and a Magic setter for price string and price float and alias them to access the price property in very short order. Isset is designed to be called when we attempt to call empty or isset on a property that doesn't exist. It's cousin, Magic unset, is called when we call unset on a property that doesn't exist. The final Magic Methods that we'll look at are call and callStatic. Each of these is called when we attempt to call either a method in an object context or in a static context. So Magic Methods, 
+
+**What are Magic Method good for?** 
+
+Magic Methods aren't a silver bullet for all occasions. Most of your code will never need a single Magic Method. And there are good reasons for that. 
+
+*Phương pháp Ma thuật không phải là một viên đạn bạc cho mọi trường hợp. Hầu hết mã của bạn sẽ không bao giờ cần một Phương pháp Ma thuật duy nhất. Và có những lý do chính đáng cho điều đó.*
+
+Magic Methods sometimes do weird things without your knowledge. That's how they work. They're magic. 
+
+*Phương pháp Ma thuật đôi khi làm những điều kỳ lạ mà bạn không biết. Đó là cách chúng hoạt động. Chúng là ma thuật.*
+
+Magic stuff sometimes just happens without your knowledge or any warning. This stuff just happens. 
+
+*Những điều kỳ diệu đôi khi chỉ xảy ra mà bạn không biết hoặc không có bất kỳ cảnh báo nào. Công cụ này chỉ xảy ra.*
+
+However, on those occasions where you really need the magic, they provide it. It'll save you a ton of time and provide you with a nice, first-class solution to some very thorny problems.
+
+*Tuy nhiên, trong những trường hợp bạn thực sự cần phép thuật, họ sẽ cung cấp nó. Nó sẽ giúp bạn tiết kiệm rất nhiều thời gian và cung cấp cho bạn một giải pháp tốt nhất, hạng nhất cho một số vấn đề rất hóc búa.*
