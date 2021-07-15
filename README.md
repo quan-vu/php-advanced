@@ -288,3 +288,25 @@ Here we'll add a new public function, construct on line three. Remember that con
 - Database connection
 - Configuration
 
+## PHP Abstract Class
+
+```php
+<?php
+
+abstract class Database {
+    abstract public function connection();
+    
+    public function disconnect() {
+        // disconnect from database server
+    }
+}
+
+class Mysql extends Database {
+    public function connection() {
+
+    }
+}
+
+$mysql = new Mysql();
+```
+
