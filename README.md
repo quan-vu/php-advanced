@@ -437,3 +437,142 @@ Finally, generators can also yield a null value. These null values do get an aut
 
 It's taking a lot of the complexity that's already in an iterator and hiding it behind some syntactic sugar. The trick is to understand that yield acts like a return, except rather than stopping the execution of the loop, only pauses it for some operation to occur.
 
+## PHP Type Hint
+
+### Type Declaration Options
+
+- Class/ Interface
+- self
+- callable
+- array
+- bool
+- float
+- int
+- string
+
+### Strict Type Declarations
+
+> declare(strict_types=1);
+> Musr be the first line of your file
+
+**Benefits of Strict Typing**
+
+- There is a higher degree of assurance about the types of inputs.
+
+### PHP Return Types
+
+- Class/ Interface
+- self
+- callable
+- array
+- bool
+- float
+- int
+- string
+
+Example
+
+```php
+public function getUser(): UserInterface {
+    return $this->userObj;
+}
+```
+
+**null** Return Declarations
+
+```php
+function answer(): ?int {
+    return null; // ok
+}
+
+function say(?string $msg) {
+    if($msg) {
+        echo $msg;
+    }
+}
+
+say(null); // ok -- does not print
+```
+
+
+
+- [Instructor] So if you don't like type declarations in general, you are really going to dislike strict type declarations. Strict type declarations are a way for us to remove even more of the dynamic features of PHP. Recall in the last video I mentioned that PHP added some scalar type declarations. Also recall that we discussed how PHP, being a dynamically typed language, we can treat some types as other types without any real effort. This attempt to use floats 1.5 and 2.5 in our sum method will wind up having them being silently converted into the ends one and two, which may be what you want to do, but sometimes it isn't. Is there a way to tell PHP, so when I mean an integer, I mean I really, really must have an integer? In fact there is. Welcome to the declare syntax, which you have probably never used, but has been hanging around in PHP since PHP 4. In the past it was used for two specific cases. One to basically walk through code every time the parser ticked, and the second to specify the encoding of a file. Both were pretty unusual cases. I can't recall every seeing declare used before PHP 7. In PHP 7 we gained a new case, to declare strict types. This strict types enables for the file that the declare statement was added. It says for any function calls made inside of this file, use strict typing when looking at the scalar type declarations. It does not apply for any function calls made to an external file or made into that file. I'm going to explain this in further detail, so don't worry if that sounds a little confusing at the moment. Let's look again at our example. Here's our first initial example, right? We have a sum 1.5 and 2.5. In this case we're going to return three, because a and b are going to be silently converted to integer. If we add strict type declarations to this file, instead we're going to have a type error displayed, rather than actually executing the sum function. Here we have function.php that has strict types enabled, and caller.php does not. What happened? This actually returns three, because PHP will always defer to the caller when looking to evaluate strict types. And if you think about it, this makes sense. If we defer to the function author, or function.php, any code published possibly produces a ton of breakage, if the people using it do not want to use or are not used to following strict typing. Here again, since we defer to the caller, the call to sum will throw an error as it fails to strict typing in caller.php. There is however one special case with strict typing, sort of. If you declare requiring floats but pass an integer, this will pass an int as an int is really just a special case of a float. Special note again here, if you decide to use strict typing, the strict typing declaration must be the first line of your file in every file. Type declarations already give you a stronger idea about the values your methods are accepting. Strict type mode gives you an even higher level of assurance about the code being used and produced. You are adding assurances that you are not just passing values that could possibly match the type in question, but that they are the exact scalar type, and that really might matter. Even our example with the sum function passing a float versus an integer really does matter. Then again, strict typing can be kind of a pain and a hassle, so like all things in PHP, it's an optional feature. And you know what, if you use a library package that uses it, because it always defers to the caller, you'll never know or care if the authors of the library enable strict typing.
+
+
+## 10. PHP Closures
+
+A closure is an anonymous function. It's called an anonymous function because it's a function that doesn't have a name attached. Here's an example of a closure in PHP. 
+
+*Closure (Đóng) là một chức năng ẩn danh. Nó được gọi là một hàm ẩn danh vì nó là một hàm không có tên đính kèm. Đây là một ví dụ về một bao đóng trong PHP.*
+
+Notice there isn't much practical difference between this function and a normal function except we've dropped the name from the definition of the function.
+
+*Lưu ý rằng không có nhiều sự khác biệt thực tế giữa hàm này và một hàm bình thường ngoại trừ chúng tôi đã loại bỏ tên khỏi định nghĩa của hàm.*
+
+Example
+
+```php
+$func = function() {
+    echo "I'm a closure because of I dont have name.";
+}
+
+echo $func(); // Result: I'm a closure because of I dont have name.
+```
+
+### Closure Scope
+
+- Sope of closure is inside function only.
+- It doesn't know anything outside function.
+
+```php
+$var = "Hello";
+$func = function() {
+    echo "{$var} world";
+}
+
+echo $func(); // Notice: Undefined variavle: var in
+```
+
+### Closure Parameters
+
+- We can pass a variable to closure by use **use()** keyword.
+
+Example 1:
+
+```php
+$var = "closure";
+$func = function($var) {
+    echo "{$var} called";
+}
+
+echo $func($var); // prints: "closure called"
+```
+
+Example 2:
+
+```php
+$var = "closure";
+$func = function() use ($var) {
+    echo "{$var} called";
+}
+
+echo $func(); // prints: "closure called"
+```
+
+Example 3:
+
+```php
+$var = "closure";
+$func = function() use ($var) {
+    echo "{$var} called";
+    $var = "new value";
+}
+
+echo $func(); // prints: "closure called"
+echo $var; // prints: "closure"
+```
+
+### Closure use for
+
+- Strategy Pattern
+- 
