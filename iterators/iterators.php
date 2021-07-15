@@ -13,10 +13,30 @@ class BasicIterator extends IteratorIterator {
     }
 }
 
+class FilterRows extends FilterIterator {
+
+    /**
+     * This will filter and remove final blank rows
+     */
+    public function accept() {
+        $current = $this->getInnerIterator()->current();
+        if ( count($current) == 1) {
+            return false;
+        }
+        return true;
+    }
+}
+
 $filePath = './data.csv';
 $iterator = new BasicIterator($filePath);
 
 foreach($iterator as $i => $row) {
+    var_dump($row);
+}
+echo "==========================\n";
+
+$filterIterator = new FilterRows($iterator);
+foreach($filterIterator as $i => $row) {
     var_dump($row);
 }
 
