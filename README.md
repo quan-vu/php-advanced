@@ -97,3 +97,56 @@ class Query {
     }
 }
 ```
+
+### PHP Standard Interface
+
+There are six different interfaces that the PHP SPL or the PHP Standard PHP Library provides.
+
+PHP Standard PHP Library
+
+- Standard set of PHP libraries and classes
+
+1. Countable Interface
+
+    abstract public int count (void)
+
+2. OuterIterator Interface
+
+    public Iterator getInnerIterator (void)
+
+    *OuterIterator is an interface to iterate over iterators. What's an iterator? Well for now, let's just consider that an iterator is an extremely fast way of performing for each style loops over objects. So an OuterIterator is an interface to handle the necessary code for looping over a collection of objects that themselves can be looped over.*
+
+3. RecursivelIterator Interface
+
+    public ResursiveIterator getChildren(void)
+    public bool hasChildren(void)
+
+    *RecursiveIterator is an iterator that recursively loops over iterators. Recursion and iterators mixed in together means this one is even harder to probably get a good handle on what exactly it means. For now, just understand that it's going to be useful in certain cases with certain types of applications. In general though, you probably won't deal with this one too much.*
+
+4. SeekableIterator interface
+
+    abstract public void seek (int $position)
+    
+    *SeekableIterator interface. This one is actually a bit easier to grasp. This means the iterator is able to seek to a current position. Like an array, we can both loop through each element one after another or we can go right to an item at position five and for now we're done with iterators.*
+
+5. SplObserver interface
+
+    abstract public void update (SplSubject $subject)
+
+
+6.  SplSubject interface
+
+    abstract public void attach (SplObserver $observer)
+    abstract public void detach (SplObserver $observer)
+    abstract public void notify (void)
+
+
+    These are companion interfaces that are designed to implement the observer design pattern. What is the observer design pattern? Good question. It means the pattern whereby you have a subject and any time something changes, it notifies its observer that something happened. This approach is used to develop event-driven programming loops. Change a user's password and an event occurs that says to send an email informing the user that their password was changed. In this case, we have a subject, meaning the user model or user table, and we have an observer tie to whenever we change that user's password. 
+
+So these are all useful interfaces, but do they actually matter? In your code, when are you going to actually use them? The observer subject interfaces don't tend to be as useful unless you are writing your own eventing system. The iterator interfaces, luckily for all of us, tend to be more useful as an implementation that we'll explore later on. The countable interface, that one is both useful and easily implemented. Let's implement it right now. First, we'll open up our text editor. 
+
+We'll open up in the directory that we've been working with before and we'll add a new interface to our table class in our interfaces directory in interface.php. So we're going to implement not just the table interface, log interface, but we're also going to add a comma and implement the countable interface and on line 19 we'll add a new method, public function count, and recall our count method has to return an integer. 
+
+So in this case, we'll return the integer 10. Next, replace on line 24 where we're calling log to instead call count and remove our string that we're passing in and that's all that we needed. We just implemented the countable interface from the PHP SPL. If we save this file, go to our terminal and run it using PHP ./interfaces/interface.php, we see that we get foo and the number 10 being returned as we expected. 
+
+The benefit of this is now if we need the ability to return the count of an object, we can type into this SPL interface and we required an object to implement a known method with a known method signature, but leaving the implementation details up to that object and the programmer themselves.

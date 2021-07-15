@@ -16,7 +16,12 @@ class Table implements TableInterface, LogInterface {
     public function log($message) {
         return $message . "\n";
     }
+
+    public function count() {
+        return 10;
+    }
 }
 
 echo (new Table())->save([]);
+echo (new Table())->count();
 echo (new Table())->log(' interfaces are awesome.');
