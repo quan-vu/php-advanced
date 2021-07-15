@@ -150,3 +150,28 @@ We'll open up in the directory that we've been working with before and we'll add
 So in this case, we'll return the integer 10. Next, replace on line 24 where we're calling log to instead call count and remove our string that we're passing in and that's all that we needed. We just implemented the countable interface from the PHP SPL. If we save this file, go to our terminal and run it using PHP ./interfaces/interface.php, we see that we get foo and the number 10 being returned as we expected. 
 
 The benefit of this is now if we need the ability to return the count of an object, we can type into this SPL interface and we required an object to implement a known method with a known method signature, but leaving the implementation details up to that object and the programmer themselves.
+
+## Traits
+
+PHP Traits overview
+
+- Provide implementation details.
+
+    *Cung cấp chi tiết triển khai.*
+
+- Traits can be considered a close companion to interfaces. Whereas interfaces include no implementation logic, trait, on the other hand, do include implementation details of a set of methods you want to be included in a series of classes. 
+
+    *Đặc điểm có thể được coi là một người bạn đồng hành thân thiết với các giao diện. Mặt khác, các giao diện không bao gồm logic triển khai, đặc điểm, bao gồm các chi tiết triển khai của một tập hợp các phương thức mà bạn muốn đưa vào một loạt các lớp.*
+
+
+- The main reason to use a trait over a standard inheritance model, i.e., to simply make a parent class with the shared methods and inherent from that similar parent class, is a lot of the time, you don't want all your classes to inherit from the same base class. In other words, traits permit a style of horizontal code sharing, as opposed to purely vertical code sharing. 
+
+    *Lý do chính để sử dụng một đặc điểm trên mô hình kế thừa tiêu chuẩn, tức là chỉ đơn giản tạo một lớp cha với các phương thức được chia sẻ và vốn có từ lớp cha tương tự đó, là rất nhiều lúc, bạn không muốn tất cả các lớp của mình kế thừa từ cùng một lớp cơ sở. Nói cách khác, các đặc điểm cho phép kiểu chia sẻ mã theo chiều ngang, trái ngược với kiểu chia sẻ mã theo chiều dọc hoàn toàn.*
+
+Examples: 
+
+- Logging is a typical example of where a trait's benefits are far greater than simply using standard inheritance. You need logging in probably a lot of your code, but not all of it, and you want to not have to rewrite the actual implementation details of how you log multiple times in your code base. 
+
+    So we have a standard model, view, controller application. Model talks to the database. View displays stuff to the end user, and the controller layer handles the coordination between these two other layers. We want to log in most of our model classes and some of our controller classes, but our views, on the other hand, have essentially no need for any form of logging.
+
+    Where would this type of code live? Traits are our answer in this case. Traits are reusable methods that can basically be loaded into any class and be used whenever we need them, simply by including that class.
