@@ -239,3 +239,42 @@ Magic stuff sometimes just happens without your knowledge or any warning. This s
 However, on those occasions where you really need the magic, they provide it. It'll save you a ton of time and provide you with a nice, first-class solution to some very thorny problems.
 
 *Tuy nhiên, trong những trường hợp bạn thực sự cần phép thuật, họ sẽ cung cấp nó. Nó sẽ giúp bạn tiết kiệm rất nhiều thời gian và cung cấp cho bạn một giải pháp tốt nhất, hạng nhất cho một số vấn đề rất hóc búa.*
+
+## PHP Constructor and Deconstructor
+
+Constructors and deconstructors are the next advanced PHP object oriented programming topic we should cover. Constructors and deconstructors are methods that PHP calls internally whenever you create a new instance of an object or destroy an instance of an object. They are another example of these magic methods. 
+
+### Constructor
+
+> Initialize state of object when you create new instance of the class.
+> Initialize: Debug or Inject dependencies.
+
+A constructor enables you to initialize some state for your object at the point that you create a new instance of the class. The benefit here is that you can pass in state to your object or you dependencies and have that state and dependency stick around for the lifetime of that object. 
+
+Say you have a class that interfaces with an API for instance a credit card processing system and this API has the ability to toggle a debug mode. 
+
+Anytime you create a new instance of this class on you staging and development environments you can pass a variable that tells the class to toggle this flag for being in debug mode. You can also typically do things like inject your dependencies at this particular point. 
+
+### Deconstructor
+
+> Destroy any state of object that needs to be released.
+
+- Teardown:
+    - FIle and database connections
+
+
+What about a deconstructor? 
+
+If constructors create state, deconstructors do the opposite they destroy state. The goal here is to destroy any other state that your object has that needs to be released. Common examples of when this is useful is classes that are designed to write out information to a file or that hold a persistent connection to a data base or some other external service. 
+
+You don't want either of these connections sitting around after the class is no longer in use so adding a decontructor remove the connection is a useful operation in these cases. So when does a deconstructor run? This is a fun question. It's relatively easy to know when a constructor runs it's when you run the command new instance of some object but a deconstructor on the other hand there's not always a clear time in which you say destroy this instance of a class. 
+
+**When the deconstructor runs?**
+
+Once PHP knows there are no more references to that class or that PHP itself is performing a shut down ie. that the request is completed and everything is being completed on PHP side, that is when the deconstructor runs. 
+
+There are some rules around dealing with parent constructors and deconstructors. If a child class has no constructor or deconstructor code it will call the parent constructor or destructor however, if a child class explicitly defines a construct or destruct method then you have to explicitly call the parents construct or destruct method. Let's play around with some of this now. 
+
+Open up your code editor to the directory we've been working in up to this point. We're going to add in a new directory for object oriented programming and we'll label that directory o o p. Here in our directory o o p we'll add a new file for structs dot php. We'll add our open PHP tags and we'll create a new class database on line two. 
+
+Here we'll add a new public function, construct on line three. Remember that construct because it is a magic method has two double underscores at the front of the method name. This method is going to take one parameter that we'll call input. And on line four we'll echo the input bar and add a new line to the end. So that's echo double quotes, wrap our input bar in curly braces and then add the new line command. Let's add a few blank lines after line five and add a new public function destruct. Again destruct is a magic method so it includes the two double underscores at the front. Destruct here cannot take any arguments as you might suspect as destruct may not necessarily be called by you yourself. On line eight we'll just echo destruct along with a new line. And then we'll finally get out of this class and on line 12 we'll add object is gonna be equal to new database. Save this and run the command p h p o o p structs dot p h p well that was fun we got a big PHP warning and nothing really worked properly. Let's go back to the editor and see what happened. Oh right we needed to pass an input to our constructor. So where are the inputs to our constructor? They're the values we pass inbetween the object parenthesis. Notice we are literally making a function call out of constructing or initializing our object. So on line 12 we'll add passing the string construct and now let's save this and run it again. And here we can see that our magic methods construct and deconstruct ran one after the other. Our deconstructor fired after there were no more references to the object and PHP cleaned up the instance of that particular object. Pretty simple.
