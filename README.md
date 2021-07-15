@@ -278,3 +278,13 @@ There are some rules around dealing with parent constructors and deconstructors.
 Open up your code editor to the directory we've been working in up to this point. We're going to add in a new directory for object oriented programming and we'll label that directory o o p. Here in our directory o o p we'll add a new file for structs dot php. We'll add our open PHP tags and we'll create a new class database on line two. 
 
 Here we'll add a new public function, construct on line three. Remember that construct because it is a magic method has two double underscores at the front of the method name. This method is going to take one parameter that we'll call input. And on line four we'll echo the input bar and add a new line to the end. So that's echo double quotes, wrap our input bar in curly braces and then add the new line command. Let's add a few blank lines after line five and add a new public function destruct. Again destruct is a magic method so it includes the two double underscores at the front. Destruct here cannot take any arguments as you might suspect as destruct may not necessarily be called by you yourself. On line eight we'll just echo destruct along with a new line. And then we'll finally get out of this class and on line 12 we'll add object is gonna be equal to new database. Save this and run the command p h p o o p structs dot p h p well that was fun we got a big PHP warning and nothing really worked properly. Let's go back to the editor and see what happened. Oh right we needed to pass an input to our constructor. So where are the inputs to our constructor? They're the values we pass inbetween the object parenthesis. Notice we are literally making a function call out of constructing or initializing our object. So on line 12 we'll add passing the string construct and now let's save this and run it again. And here we can see that our magic methods construct and deconstruct ran one after the other. Our deconstructor fired after there were no more references to the object and PHP cleaned up the instance of that particular object. Pretty simple.
+
+## PHP Singleton
+
+> A design pattern that restricts the instantiation of a class to one object.
+
+**Singleton examples**
+
+- Database connection
+- Configuration
+
