@@ -575,4 +575,87 @@ echo $var; // prints: "closure"
 ### Closure use for
 
 - Strategy Pattern
-- 
+
+
+## PHP Exception
+
+### Exception Flow
+
+1. Throw exception
+
+2. Catch exception in a try/catch block
+
+3. Process and deal with exception
+
+4. Else 
+
+
+**PHP exception overview**
+
+Exceptions are a way to trigger an error state, or condition, in some part of our application, and let another part of our application handle that problem. 
+
+A typical exception flow is an error condition is raised. At that point in our code we throw an exception. The caller of our code that threw an exception has a try/catch block at some point. 
+
+These try/catch blocks are blocks of code that say to run this, and if an exception occurs, catch it and handle it in this particular way. So we catch it at this point and deal with it in some way. What happens if our application throws an exception and we didn't catch it? Well, in some cases your framework might deal with it and display an error message to the end user. 
+
+In the worst case, the exception, if uncaught, will cause a PHP fatal error, which shows up to the end user as an HTTP 500 style error. So 
+
+**What are our exceptions useful for?**
+
+Well, you'll have, fairly often, conditions in your application in which some module will throw an error and you'll want to deal with it. Typically, methods have a limited subset of return types and what you can be expected to deal with. Exceptions give you a broader range of dealing with errors in your code. 
+
+So we have a method in which we are finding a record from our database and we expect it to return the matching user object, except it may not find the record. Maybe it doesn't exist, or the user doesn't have permissions to access that record, or any number of other reasons. If all we look for is either the user object or a false value, it's a limited set of decisions we can make in a failure case. We don't know what caused the failure of returning the object, just that it wasn't returned. Exceptions are trying to give us more options towards solving whatever problem raised the particular exception. So here's an exception. We have a method, process credit card, that processes a credit card, and we've placed it inside of a try block, and outside there is a catch block that says to catch an exception e. And then we deal with it by logging the exception message and returning false. The exception class is the base for all exceptions in PHP Five, and all userland exceptions in PHP Seven. By userland I mean everything you, the user of PHP, owns and can change, versus the internals of PHP. PHP Seven changed some of the handling for exceptions and errors, but we don't have to worry about that at the moment. 
+
+Exception classes have a constructor that takes a message and integer code, like a Unix error code, and a possible previous exception. You can get the message, the previous exception, the code, the file, and the line where the exception was thrown, as well as the stack trace of the path your code took to get to the exception. In PHP Seven, a new interface, throwable, was created. Throwable is designed around the concept of anything that can be thrown will be thrown with the throw syntax, so exceptions basically. Also in PHP, a new class, error, was created. 
+
+Error is the base for all internal PHP errors. This means, in PHP Seven, what used to be a fatal error is now a standard error that can be caught and dealt with. Though truthfully, most errors that PHP raises are actual problems in your code and shouldn't be ignored or skipped over. Exceptions should be used to derive context for a failure case. 
+
+You should not handle general cases or throwing exceptions for a normal condition in your code. A common example here is looping over a set of stuff. When you hit the end of the array, it's not an exception, it's just the end of the loop. There's no need for an exception in this case. You can have multiple catch blocks when catching an exception. 
+
+So if you have a block of code that throws multiple types of exceptions you can catch each one and handle it differently. The first catch block that matches the exception type will be used. Note, since all userland exceptions derive from the base class of exception, exception will catch everything that you throw. PHP 5.5 added the concept of a finally block. 
+
+The finally block is a block of code that will always execute regardless of an exception being raised or not. The finally block can be used in the place of a catch block or after a catch block. In essence, the finally block gives you chance to deal with any last things before returning to your normal programming flow. 
+
+Notice what I said just now, the normal programming flow. Exceptions are explicitly a rare case. You shouldn't need or have exceptions scattered throughout your code. 
+
+They're designed to catch the rare occurrences in your code. One of the most common places they'll be used for is when you call out to a library or an external service that is performing a fair bit of work, and that has a variety of returns that you'll need to deal with.
+
+### Exception Method
+
+```php
+public __construct([string $message = "" [, int $code = 0 [, Throwable $previous = NULL]]])
+
+final public string getMessage (void)
+
+final public Exception getPrevious (void)
+
+final public string getMessage (void)
+
+final public mixed getCode (void)
+
+final public string getFile (void)
+
+final public int getLine (void)
+
+final public array getTrace (void)
+
+final public string getTraceAsString (void)
+```
+
+### Exceptions: Explicitly Caught
+
+```php
+try {
+    do_a_thing();
+} catch (MyCustomException $e) {
+    process_exception($e);
+} catch (MyCustomException $e) {
+    process_exception($e);
+}
+```
+
+If you have a block of code that throws multiple types of exceptions you can catch each one and handle it differently. 
+
+The first catch block that matches the exception type will be used. Note, since all userland exceptions derive from the base class of exception, exception will catch everything that you throw. PHP 5.5 added the concept of a finally block. 
+
+The finally block is a block of code that will always execute regardless of an exception being raised or not. The finally block can be used in the place of a catch block or after a catch block. In essence, the finally block gives you chance to deal with any last things before returning to your normal programming flow. 
