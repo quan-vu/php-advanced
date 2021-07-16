@@ -8,9 +8,13 @@ class InvalidCreditCardNumber extends InvalidArgumentException {
 
 try {
     processCreditCard();
+    // processCreditCard(123);
 } catch (InvalidCreditCardNumber $e) {
     echo $e->getMessage() . ' '.get_class($e);
     echo "\n";
+} finally {
+    echo "\n";
+    echo "final\n";
 }
 
 function processCreditCard($numb = null, $zipCode = null) {

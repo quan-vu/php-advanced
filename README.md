@@ -711,3 +711,21 @@ So we can update the class construct method to pass a default message. So, on li
 We'll also call the parent function construct and pass in the message, the code, and the previous value. So this will be parent :: _construct pass in message, code, and previous. We need to return the result from our parent function construct. Now, on line 26, rather than passing in our message NoCCNumber, we can actually remove this at this point. 
 
 If we go back over to our terminal and re-run the command, we see that we have our valid message displayed, and the valid type displayed. Notice how easy this was. We built a custom exception that simply extended our normal exception class, and we built on it to say now we don't have to deal with passing a custom message. We can set default error codes, and our exception classes are now strictly typed to the type of exception and the type of error case we're dealing with.
+
+## Finally block
+
+The finally block is a block that we can add onto our tri-catch blocks to deal with any last cases, regardless of an exception being raised or not. 
+
+Typically you might want this type of thing where you are interacting with the file handler or making a connection to a socket, and you wanna close the file handler or a socket connection, regardless of anything else that happened. 
+
+Let's see how this would work in our exceptions code. We'll open up exceptions.php in the exceptions folder. The finally block is a continuation of the catch statements, so in line thirteen, add finally, and on line fourteen, since we don't have anything to clean up, we'll just echo a new line and the word final. 
+
+So we'll do echo, new line, and then echo, the string final, and that's it for our final block. So let's see what happens when we raise an exception by saving and running this code as is. Recall we're going to throw in the exception, and in this case, our finally block should still run. 
+
+So we wanna swap over to our terminal and run the command php exceptions/exceptions.php, and you'll see we get our no CC number displayed for our exception message, our invalid CC number exception class displayed, a new line, and the final string from our finally block. 
+
+So this shows what happens when we have a finally block and we have an exception raised. Our finally block still runs. This allows us to do any clean up, even if an exception occurred. Let's go back to our code editor and see what happens when our code actually passes and no exceptions are raised. For that to happen, we need the passive value for the credit card number, so let's just pass the number one. 
+
+So in this case, on line eight, we'll update our try processCC to be try processCC and pass in the number one, save this, and we can go back over to our code, and we'll re-run the command php exceptions/exceptions.php, and when we run this, notice we get the process line, our new line, and the final block. In this case, even though we did not raise an exception, we still had our finally block thrown. 
+
+That's the entire goal of our finally block. Regardless of whether or not an exception was raised, our finally code always will run. This allows you to do any final clean up or any other work that you need to do before you return to the normal flow of your program. That's it for exceptions. You should now be able to go out and build your own exceptions into your code as needed.
