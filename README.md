@@ -690,3 +690,24 @@ The finally block is a block of code that will always execute regardless of an e
 - BadMethodCallException
 - InvalidArgumentException
 - BadFunctionCallException
+
+
+## Extend PHP exceptions
+
+I've mentioned before that one of the common tasks is creating your own exception classes to deal with a particular error case. Let's go ahead and do that now. We'll start with opening our exceptions.php file in our exceptions folder. Here we'll create a very targeted exception for dealing with an invalid CC number. 
+
+On line two, before our try catch block we'll add a new clause, InvalidCCNumberException. It's going to extend the invalid argument exception. Now we can replace, on line 24, our call to the invalid argument exception with invalid CC number exception. Now, our custom exception is helpful, but not much at this point. 
+
+So let's make it a little more useful. Instead of catching and throwing a new exception on line 19, let's instead, just simply throw the already caught exception. 
+
+So, replace line 19 with throw new BadFunctionCallException with, instead, throw E. Now, at this point, in our original try catch block, we're catching an exception E, we're getting its message displaying the class name echoing a new line. We're then getting the previous exception, and then displaying the class for that previous exception. 
+
+We no longer have a previous exception, so let's erase lines 12 and 11. On line seven, instead of a catching a generic exception we can catch the specific exception, InvalidCCNumberException. So we can replace on line 7 catch exeption with InvalidCCNumberException. 
+
+Now, if we go over to our terminal and run this code with php exceptions/exceptions.php we see that we get our No CC Number message displayed along with the class InvalidCCNumberException. So, this was pretty useful, but is there a way to make this even more useful? One of the advantages of these custom exceptions is we don't actually need to set a message. We know with an InvalidCCNumberException exactly what the message is. 
+
+So we can update the class construct method to pass a default message. So, on line three add public function _ construct that will take a message. In this case, we'll set the message equal to No CC Number. We'll pass in a default error code, which will be equal to zero. We'll pass in a previous exception, which, in this case, will be equal to null. 
+
+We'll also call the parent function construct and pass in the message, the code, and the previous value. So this will be parent :: _construct pass in message, code, and previous. We need to return the result from our parent function construct. Now, on line 26, rather than passing in our message NoCCNumber, we can actually remove this at this point. 
+
+If we go back over to our terminal and re-run the command, we see that we have our valid message displayed, and the valid type displayed. Notice how easy this was. We built a custom exception that simply extended our normal exception class, and we built on it to say now we don't have to deal with passing a custom message. We can set default error codes, and our exception classes are now strictly typed to the type of exception and the type of error case we're dealing with.
