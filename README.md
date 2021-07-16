@@ -659,3 +659,34 @@ If you have a block of code that throws multiple types of exceptions you can cat
 The first catch block that matches the exception type will be used. Note, since all userland exceptions derive from the base class of exception, exception will catch everything that you throw. PHP 5.5 added the concept of a finally block. 
 
 The finally block is a block of code that will always execute regardless of an exception being raised or not. The finally block can be used in the place of a catch block or after a catch block. In essence, the finally block gives you chance to deal with any last things before returning to your normal programming flow. 
+
+## PHP SPL Exceptions
+
+- LogicException
+
+    COmmon base exception class
+
+- RuntimeException
+
+### Exception Tree
+
+- LogicException (extends Exception)
+    - BadFunctionCallException (Invalid call to a function)
+        - BadMethodCallException (Invalid call to a magic method)
+    - DomainException (Values do not match)
+    - InvalidArgumentException (Invalid params type)
+    - LengthException (Length is in valid)
+    - OutOfRangeException (Illegal index at compile time)
+
+- RuntimeException (extends Exception)
+    - OutOfBoundsException (Illegal index at runtime)
+    - OverflowException (Add to container already full)
+    - RangeException (Runtime version of DomainException)
+    - UnderflowException (Remove from an empty container)
+    - UnexpectedValueException (Value does not match expectations)
+
+### Most Common Exception
+
+- BadMethodCallException
+- InvalidArgumentException
+- BadFunctionCallException
