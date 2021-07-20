@@ -1,4 +1,6 @@
-# OOP inPHP
+# PHP OOP with Codeholic
+
+Youtube playlist: https://www.youtube.com/playlist?list=PLLQuc_7jk__VDhXWi544iK-SgljlGGlrX
 
 Introduction
 
