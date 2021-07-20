@@ -74,6 +74,6 @@ $triangle = new Triangle('green', 3, 5);
 $rectangle = new Rectangle('red', 10, 5);
 $circle = new Circle('blue', 6);
 
-echo "Triangle area: " . $triangle->getArea() . PHP_EOL;
-echo "Rectangle area: " . $rectangle->getArea() . PHP_EOL;
-echo "Circle area: " . $circle->getArea() . PHP_EOL;
+echo "Triangle area: {$triangle->getColor()}, {$triangle->getArea()}" . PHP_EOL;
+echo "Rectangle area: {$rectangle->getColor()}, {$rectangle->getArea()}" . PHP_EOL;
+echo "Circle area: {$circle->getColor()}, {$circle->getArea()}" . PHP_EOL;
