@@ -41,3 +41,14 @@ If you can copy and paste the code from one class to another and we've all done 
 The best way to understand whet trats are and how to use them is to look at them for what they essentially are: language assisted copy and paste.
 
 *Cách tốt nhất để hiểu các đặc điểm là gì và cách sử dụng chúng là xem chúng về bản chất của chúng là gì: sao chép và dán có hỗ trợ ngôn ngữ.*
+
+## Namespace
+
+- Solve conflict class name.
+
+By saying "classes" I mean:
+
+- Classes
+- Interfaces
+- Abstract classes
+- Traits
