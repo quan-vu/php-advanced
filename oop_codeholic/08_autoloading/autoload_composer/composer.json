@@ -1,0 +1,16 @@
+{
+    "name": "quanvu/autoload_composer",
+    "description": "Autoload with composer demo",
+    "autoload": {
+        "psr-4": {
+            "Quanvu\\AutoloadComposer\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Quan Vu",
+            "email": "huyquan.vu.1@gmail.com"
+        }
+    ],
+    "require": {}
+}
