@@ -3,7 +3,7 @@
     "description": "Autoload with composer demo",
     "autoload": {
         "psr-4": {
-            "Quanvu\\AutoloadComposer\\": "src/"
+            "App\\": "src/"
         }
     },
     "authors": [

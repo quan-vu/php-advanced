@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInit94d784d96b34102e599850b14b4dbf21
 {
     public static $prefixLengthsPsr4 = array (
-        'Q' => 
+        'A' => 
         array (
-            'Quanvu\\AutoloadComposer\\' => 24,
+            'App\\' => 4,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Quanvu\\AutoloadComposer\\' => 
+        'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),

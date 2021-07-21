@@ -52,3 +52,12 @@ By saying "classes" I mean:
 - Interfaces
 - Abstract classes
 - Traits
+
+## Autoload
+
+- spl_autoload_register is main function to do autoload classes.
+
+In php, to implement autoload class we use function name: "spl_autoload_register" to require the php files.
+
+
+- Composer use the same function `spl_autoload_register` to make autoload.
